@@ -449,14 +449,28 @@ function showForm(){
   if(!menuData.length) loadMenu();
   scrollTo(0,0);
 }
+// Замените 'ВАШ_URL_ИЗ_APPS_SCRIPT_ЗДЕСЬ' на скопированную ссылку на /exec
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycby-xhmu19HfXtNzLNAUeNro5dY24-mc8gH40G9-h4RV2wrq1nDxit8uoeiNBVwPmiYU/exec';
 
-function loadMenu(){
-  google.script.run
-    .withSuccessHandler(renderMenu)
-    .withFailureHandler(function(){
-      $("menuContainer").innerHTML = '<div class="card error">Не удалось загрузить меню. Обновите страницу.</div>';
-    })
-    .getMenu();
+async function loadMenu() {
+    try {
+        const response = await fetch(WEB_APP_URL);
+        const data = await response.json();
+        
+        console.log("Данные меню получены:", data);
+        
+        // Здесь вы можете вызвать функцию отрисовки меню на странице,
+        // передав ей массив `data` (вашу таблицу из Google Таблиц)
+        renderMenu(data);
+        
+    } catch (error) {
+        console.error("Ошибка при загрузке меню:", error);
+    }
+}
+
+// Запускаем загрузку при открытии страницы
+loadMenu();
+
 }
 
 function renderMenu(data){
