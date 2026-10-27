@@ -470,9 +470,6 @@ async function loadMenu() {
 
 // Запускаем загрузку при открытии страницы
 loadMenu();
-
-}
-
 function renderMenu(data){
   menuData = data || [];
   const mealNames = [...new Set(menuData.map(x => x.section))];
